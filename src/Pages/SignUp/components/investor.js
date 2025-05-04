@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Investor({ goBack, email }) {
     const [investorData, setInvestorData] = useState({
@@ -16,6 +17,8 @@ export default function Investor({ goBack, email }) {
         investmentExperience: '',
         email: email,
     });
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -48,20 +51,36 @@ export default function Investor({ goBack, email }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!investorData.termsAccepted) {
-            alert('Please accept the terms and conditions to proceed.');
-            return;
+          alert('Please accept the terms and conditions to proceed.');
+          return;
         }
+    
+        setLoading(true);
         try {
-            // Sending form data via axios to your API endpoint
-            console.log(investorData);
-            const res = await axios.post("https://smart-bell-server.onrender.com/InvestorRegister",investorData);
-            alert(res.data.message);
+          const formData = new FormData();
+          for (const key in investorData) {
+            if (key === "industries") {
+              formData.append(key, JSON.stringify(investorData[key]));
+            } else {
+              formData.append(key, investorData[key]);
+            }
+          }
+    
+          await axios.post("https://smart-bell-server.onrender.com/InvestorRegister", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          navigate("/login");
+
         } catch (error) {
-            alert(error.response?.data?.message || "An error occurred. Please try again.");
+          alert(error.response?.data?.message || "An error occurred. Please try again.");
+        } finally {
+          setLoading(false);
         }
-    };
+      };
 
     return (
         <div>
@@ -183,7 +202,16 @@ export default function Investor({ goBack, email }) {
                 </div>
 
                 <div>
-                    <button type="submit">Submit</button>
+                <button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                &nbsp;Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
+          </button>
                 </div>
             </form>
         </div>

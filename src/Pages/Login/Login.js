@@ -8,8 +8,10 @@ const LoginPage = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const loginUser = async (email, password) => {
+    setLoading(true)
     try {
       const res = await axios.post("https://smart-bell-server.onrender.com/login", {
         email,
@@ -21,6 +23,9 @@ const LoginPage = () => {
       setEmail('');
       setPassword('');
       alert(error.response?.data?.message || "Login failed");
+    }
+    finally{
+      setLoading(false);
     }
   };
     const handlesubmit = (e)=>{
@@ -62,7 +67,16 @@ const LoginPage = () => {
             <a href="/">Forgot password?</a>
           </div>
 
-          <button type="submit" className="signin-btn">Sign in</button>
+          <button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                &nbsp;Logging in...
+              </>
+            ) : (
+              "Log in"
+            )}
+          </button>
         </form>
 
         <p className="version">Version <span>1.0.0</span></p>

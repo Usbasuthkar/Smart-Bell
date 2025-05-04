@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Client({ goBack, email }) {
     const [clientData, setClientData] = useState({
@@ -16,6 +17,8 @@ export default function Client({ goBack, email }) {
         location: '',
         email: email,
     });
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,12 +52,15 @@ export default function Client({ goBack, email }) {
         };
 
         console.log('Client Data:', finalClientData);
-
+        setLoading(true)
         try {
-            const res = await axios.post("https://smart-bell-server.onrender.com/ClientRegister", finalClientData);
-            alert(res.data.message);
+            await axios.post("https://smart-bell-server.onrender.com/ClientRegister", finalClientData);
+            navigate("/login");
         } catch (error) {
             alert(error.response?.data?.message || "An error occurred. Please try again.");
+        }
+        finally{
+            setLoading(false);
         }
     };
 
@@ -188,7 +194,16 @@ export default function Client({ goBack, email }) {
                 </div>
 
                 <div>
-                    <button type="submit">Submit</button>
+                <button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                &nbsp;Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
+          </button>
                 </div>
             </form>
         </div>
