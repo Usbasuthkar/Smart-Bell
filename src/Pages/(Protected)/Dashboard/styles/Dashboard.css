@@ -1,0 +1,38 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    padding: 24px;
+  }
+  
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  @media (min-width: 768px) {
+    .dashboard-content {
+      flex-direction: row;
+    }
+    
+    .dashboard-sidebar {
+      width: 25%;
+    }
+    
+    .dashboard-main-content {
+      width: 75%;
+    }
+  }
+  

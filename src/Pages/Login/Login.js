@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import "./style/Loginpage.css";
+import Header from '../Landing/Components/Header';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const LoginPage = () => {
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const loginUser = async (email, password) => {
+    try {
+      const res = await axios.post("https://smart-bell-server.onrender.com/login", {
+        email,
+        password
+      });
+      console.log(res.data);
+      navigate(`/dashboard/${encodeURIComponent(email)}`);
+    } catch (error) {
+      setEmail('');
+      setPassword('');
+      alert(error.response?.data?.message || "Login failed");
+    }
+  };
+    const handlesubmit = (e)=>{
+      e.preventDefault(); 
+      loginUser(email, password);
+    }
+
+  return (
+    <div>
+      <Header/>
+      <div className="login-container">
+      <div className="login-box">
+        
+        <h1>Welcome to Network Maverick</h1>
+        <p>Sign in to your account below</p>
+
+        <form onSubmit={handlesubmit}>
+          <label>Email</label>
+          <input value={email}
+           onChange={(e)=>{setEmail(e.target.value)}}
+           type="email" placeholder="e.g arbi@globalxtreme.net" />
+
+          <label>Password</label>
+          <div className="password-container">
+            <input value={password}
+             onChange={(e)=>{setPassword(e.target.value)}} type="password" />
+            <span className="eye-icon">👁</span>
+          </div>
+
+          <div className="options">
+          <div style={{display:'flex'}}>
+            <div style={{marginRight:10,marginTop:2}}>
+             <input type="checkbox" />
+          </div>
+            <label>
+               Keep Me Signed in
+            </label>
+          </div>
+            <a href="/">Forgot password?</a>
+          </div>
+
+          <button type="submit" className="signin-btn">Sign in</button>
+        </form>
+
+        <p className="version">Version <span>1.0.0</span></p>
+        <p className="footer">© 2025 Network Maverick - Committed to better quality</p>
+      </div>
+      <div className="image-section">
+        <img src="Login_img.jpg" alt="Scenic Beach" />
+      </div>
+    </div>
+    </div>
+  );
+};
+
+export default LoginPage;

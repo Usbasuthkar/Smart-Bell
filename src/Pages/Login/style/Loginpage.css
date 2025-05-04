@@ -1,0 +1,169 @@
+/* Main container */
+.login-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f3f3f3;
+  margin: 80px;
+  position: relative;
+  border-radius: 10px;
+}
+
+/* Left Side - Form */
+.login-box {
+  border-radius: 10px;
+  width: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-box h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.login-box p {
+  color: gray;
+  margin-bottom: 15px;
+}
+
+form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.password-container {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.options a {
+  color: #293e73;
+  text-decoration: none;
+  
+}
+
+.signin-btn {
+  background: #293e73;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.signin-btn:hover {
+  background: #293e73;
+}
+
+/* Version and footer */
+.version {
+  margin-top: 10px;
+  font-size: 12px;
+  color: gray;
+}
+
+.footer {
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+}
+
+/* Right Side - Image */
+.image-section {
+  width: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fills the space without distortion */
+  border-radius: 8px;
+}
+
+/* Quote Styling */
+.quote {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.author {
+  font-size: 14px;
+}
+
+.text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 🌟 Responsive Design for Mobile */
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .login-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .image-section {
+    width: 100%;
+    height: 300px; /* Adjusted height for smaller screens */
+  }
+
+  .quote {
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+  }
+
+  .login-box img {
+    position: relative;
+    margin: 0;
+    width: 150px; /* Adjust the logo size to avoid overlap on smaller screens */
+    height: auto;
+  }
+}

@@ -1,0 +1,401 @@
+/* Profile.css */
+
+/* Profile Container */
+.profile-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Profile Content */
+  .profile-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  /* Profile Header */
+  .profile-header {
+    position: relative;
+    height: 300px;
+  }
+  .activity-item {
+    display:flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    background-color: #f8f9fa;
+  }
+  .profile-cover-photo {
+    height: 200px;
+    background: linear-gradient(135deg, #003b46, #07575b);
+    width: 100%;
+  }
+  
+  .profile-avatar-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 130px;
+    text-align: center;
+  }
+  .profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    border: 5px solid white;
+    margin: 0 auto;
+    background-size: cover;
+  }
+  
+  .profile-avatar-container h1 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .profile-title {
+    color: #666;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .profile-meta {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  .messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .profile-meta span {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-meta i {
+    margin-right: 5px;
+  }
+  
+  /* Profile Body */
+  .profile-body {
+    padding: 80px 30px 40px;
+  }
+  
+  /* Profile Actions */
+  .profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    margin-top: 60px;
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    position: relative;
+  }
+  
+  .close-button {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .portfolio-card {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
+  
+  .contact-btn, .connect-btn, .toggle-view-btn {
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .contact-btn {
+    background-color: #003b46;
+    color: white;
+    border: none;
+  }
+  
+  .connect-btn {
+    background-color: white;
+    color: #003b46;
+    border: 2px solid #003b46;
+  }
+  
+  .toggle-view-btn {
+    background-color: #f0f0f0;
+    color: #666;
+    border: none;
+  }
+  
+  .contact-btn:hover {
+    background-color: #002b36;
+  }
+  
+  .connect-btn:hover {
+    background-color: #f0f7f8;
+  }
+  
+  /* Profile Stats */
+  .profile-stats {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 40px;
+  }
+  
+  .stat-box {
+    text-align: center;
+    padding: 15px 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 100px;
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #003b46;
+  }
+  
+  .stat-label {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Profile Sections */
+  .profile-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .profile-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .section-header h2 {
+    margin: 0;
+  }
+  
+  .profile-section h2 {
+    color: #003b46;
+    margin-top: 0;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .about-section p {
+    line-height: 1.6;
+  }
+  
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .tag {
+    background-color: #e9f5f7;
+    color: #003b46;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  button {
+    background-color: #003b46;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  button:hover {
+    background-color: #002b36;
+  }
+  
+  /* Portfolio */
+  .portfolio-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .portfolio-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .portfolio-header h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .active {
+    background-color: #e9f5f7;
+    color: #003b46;
+  }
+  
+  .funded {
+    background-color: #e6f3e6;
+    color: #2e7d32;
+  }
+  
+  .completed {
+    background-color: #eeeeee;
+    color: #616161;
+  }
+  
+  .portfolio-description {
+    color: #666;
+    margin: 10px 0;
+    flex-grow: 1;
+  }
+  
+  .portfolio-meta {
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .investment-amount,
+  .funding-needed {
+    font-weight: bold;
+    color: #003b46;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .investment-date {
+    color: #666;
+  }
+  
+  .details-btn {
+    width: 100%;
+    background-color: white;
+    color: #003b46;
+    border: 1px solid #003b46;
+  }
+  
+  .details-btn:hover {
+    background-color: #f0f7f8;
+  }
+  
+  /* Responsive Design */
+  @media (min-width: 768px) {
+    .profile-sections {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .about-section {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .profile-stats {
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+  
+    .stat-box {
+      width: 80%;
+    }
+  
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+    }
+  
+    .profile-header {
+      height: 280px;
+    }
+  
+    .profile-body {
+      padding: 70px 15px 30px;
+    }
+  
+    .profile-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .contact-btn,
+    .connect-btn,
+    .toggle-view-btn {
+      width: 80%;
+    }
+  }
+  

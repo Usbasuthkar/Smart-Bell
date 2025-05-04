@@ -1,0 +1,110 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-content {
+    min-width: 900px;   
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  
+  .modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .modal-close-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .modal-close-button:hover {
+    color: #333;
+  }
+  
+  .modal-avatar {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .modal-avatar-image {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .modal-avatar-placeholder {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #003b46;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .modal-info-section {
+    margin-bottom: 16px;
+  }
+  
+  .modal-info-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px;
+  }
+  
+  .modal-description {
+    color: #666;
+  }
+  
+  .profile-link-button {
+    display: block;
+    width: 100%;
+    background-color: #003b46;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 0;
+    border-radius: 4px;
+    margin-top: 16px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .profile-link-button:hover {
+    background-color: #003b46;
+  }
