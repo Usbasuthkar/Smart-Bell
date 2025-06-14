@@ -3,11 +3,14 @@ import "./style/Loginpage.css";
 import Header from '../Landing/Components/Header';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Modal from "./components/Modal";
 
 const LoginPage = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  const [visible,SetVisibility] = useState('password')
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const loginUser = async (email, password) => {
@@ -33,6 +36,14 @@ const LoginPage = () => {
       loginUser(email, password);
     }
 
+    const handleVisibility = ()=>{
+      if(visible.length === 0){
+        SetVisibility('password');
+      }
+      else{
+        SetVisibility('');
+      }
+    }
   return (
     <div>
       <Header/>
@@ -51,8 +62,8 @@ const LoginPage = () => {
           <label>Password</label>
           <div className="password-container">
             <input value={password}
-             onChange={(e)=>{setPassword(e.target.value)}} type="password" />
-            <span className="eye-icon">👁</span>
+             onChange={(e)=>{setPassword(e.target.value)}} type={visible} />
+            <span onClick={handleVisibility} className="eye-icon">👁</span>
           </div>
 
           <div className="options">
@@ -64,7 +75,10 @@ const LoginPage = () => {
                Keep Me Signed in
             </label>
           </div>
-            <a href="/">Forgot password?</a>
+            <div onClick={() => setShowModal(true)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+              Forgot password?
+            </div>
+            {showModal && <Modal onClose={()=>{setShowModal(false)}}/>}
           </div>
 
           <button type="submit" disabled={loading}>
