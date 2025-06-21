@@ -119,7 +119,7 @@ export default function Profile({view}) {
             <div style={{display:'flex',justifyContent:'center',marginTop:"20px"}}>
               <button onClick={()=>{setShowModal(true)}}>Click to see more</button>
             </div>
-            <Modal show={showModal} onClose={()=>{setShowModal(false)}} portfolio={userData.portfolio}/>             
+            <Modal show={showModal} onClose={()=>{setShowModal(false)}} portfolio={userData.Portfolio}/>             
             </div>             
                     
         <div className="profile-section">               
