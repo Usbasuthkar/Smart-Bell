@@ -12,12 +12,13 @@ const Signup = () => {
   const [second_page,setSecondPage] = useState(false);
   const [investor,setInvestor] = useState(false);
   const [client,setClient] = useState(false);
- 
+  const [name,setName] = useState('');
 
-  const handleclick = (email)=>{
+  const handleclick = (email,name)=>{
     setFirstPage(false);
     setSecondPage(true);
     setEmail(email);
+    setName(name);
   }
   const back = ()=>{
     setFirstPage(true);
@@ -30,8 +31,8 @@ const Signup = () => {
       <div className="left-section">
         {first_page && <Signupfirst handleclick={handleclick}/>}
         {second_page && <Signupsecond Investor={()=>{setInvestor(true);setSecondPage(false)}} goBack={back} Client={()=>{setSecondPage(false);setClient(true)}}/>}
-        {investor && <Investor email={Email} goBack={()=>{setInvestor(false);setSecondPage(true)}}/>}
-        {client && <Client email= {Email} goBack={()=>{setClient(false);setSecondPage(true)}}/>}
+        {investor && <Investor email={Email} name={name} goBack={()=>{setInvestor(false);setSecondPage(true)}}/>}
+        {client && <Client email= {Email} name={name} goBack={()=>{setClient(false);setSecondPage(true)}}/>}
       </div>
       <div className="right-section">
         <img src="Signup_img.jpg" alt="Image" width={"100%"}/>

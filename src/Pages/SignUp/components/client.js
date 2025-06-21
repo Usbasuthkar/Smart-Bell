@@ -4,57 +4,70 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Client({ goBack, email }) {
+export default function Client({ goBack, email,name }) {
     const [clientData, setClientData] = useState({
         role: '',
         companyName: '',
         industry: '',
         otherIndustry: '',
         experienceLevel: '',
-        otherlinks:'',
+        otherlinks:[],
         linkedinProfile: '',
         referralCode: '',
         location: '',
         email: email,
+        name:name,
+        about:'',
+        Portfolio:[],
+        investments:0,
+        connections:0,
+        join_month:new Date().toLocaleString('default',{month:'long'}),
+        join_year:new Date().getFullYear()
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+  const { name, value } = e.target;
+
+    if (name === "otherlinks") {
+        const linksArray = value.split(",").map(link => link.trim()).filter(link => link !== "");
         setClientData(prevState => ({
-            ...prevState,
-            [name]: value,
+        ...prevState,
+        [name]: linksArray,
         }));
+    } else {
+        setClientData(prevState => ({
+        ...prevState,
+         [name]: value,
+        }));
+    }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Make sure all required fields are filled out
         if (!clientData.role || !clientData.industry || !clientData.experienceLevel || !clientData.linkedinProfile) {
             alert("Please fill in all required fields.");
             return;
         }
 
-        // If the industry is "Other", make sure to use the "otherIndustry" value
         if (clientData.industry === "other" && !clientData.otherIndustry) {
             alert("Please specify the 'Other' industry.");
             return;
         }
 
-        // Use the "otherIndustry" field if the "industry" is set to "other"
         const finalIndustry = clientData.industry === "other" ? clientData.otherIndustry : clientData.industry;
 
         const finalClientData = {
             ...clientData,
-            industry: finalIndustry,  // Ensure the "other" industry is sent if applicable
+            industry: finalIndustry, 
         };
 
         console.log('Client Data:', finalClientData);
         setLoading(true)
         try {
-            await axios.post("https://smart-bell-server.onrender.com/ClientRegister", finalClientData);
+            await axios.post("http://localhost:5000/ClientRegister", finalClientData);
             navigate("/login");
         } catch (error) {
             alert(error.response?.data?.message || "An error occurred. Please try again.");
@@ -174,12 +187,11 @@ export default function Client({ goBack, email }) {
                 <div>
                     <label>Additional Links</label>
                     <input
-                        type="text"
-                        name="otherlinks"
-                        value={clientData.otherlinks}
-                        onChange={handleChange}
-                        placeholder="e.g- https://github.com, https://your-portfolio.com, https://your-company-name.com"
-                    />
+                    type="text"
+                    name="otherlinks"
+                    value={clientData.otherlinks.join(", ")}
+                    onChange={handleChange}
+                    placeholder="e.g., https://github.com, https://your-portfolio.com"/>
                 </div>
 
                 <div>

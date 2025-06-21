@@ -4,18 +4,25 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Investor({ goBack, email }) {
+export default function Investor({ goBack, email,name }) {
     const [investorData, setInvestorData] = useState({
         investorType: '',
         investmentRange: '',
         industries: [],
         location: '',
         linkedinProfile: '',
-        otherlinks:'',
+        otherlinks:[],
         accreditation: null,
         termsAccepted: false,
         investmentExperience: '',
         email: email,
+        name:name,
+        about:'',
+        Portfolio:[],
+        investments:0,
+        connections:0,
+        join_month:new Date().toLocaleString('default',{month:'long'}),
+        join_year:new Date().getFullYear()
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -29,12 +36,19 @@ export default function Investor({ goBack, email }) {
                 [name]: checked,
             }));
         } else if (name === 'industries') {
-            const updatedIndustries = value.split(','); // assuming industries are comma-separated
+            const updatedIndustries = value.split(',');
             setInvestorData(prevState => ({
                 ...prevState,
                 industries: updatedIndustries,
             }));
-        } else {
+        }
+        else if (name === "otherlinks") {
+        const linksArray = value.split(",").map(link => link.trim()).filter(link => link !== "");
+        setInvestorData(prevState => ({
+        ...prevState,
+        [name]: linksArray,
+        })); }
+        else {
             setInvestorData(prevState => ({
                 ...prevState,
                 [name]: value,
@@ -59,20 +73,8 @@ export default function Investor({ goBack, email }) {
     
         setLoading(true);
         try {
-          const formData = new FormData();
-          for (const key in investorData) {
-            if (key === "industries") {
-              formData.append(key, JSON.stringify(investorData[key]));
-            } else {
-              formData.append(key, investorData[key]);
-            }
-          }
-    
-          await axios.post("https://smart-bell-server.onrender.com/InvestorRegister", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
+          await axios.post("http://localhost:5000/InvestorRegister", investorData,
+          );
           navigate("/login");
 
         } catch (error) {
@@ -100,6 +102,7 @@ export default function Investor({ goBack, email }) {
                         value={investorData.investorType}
                         onChange={handleChange}
                     >
+                        <option value="">Select type of investor</option>
                         <option value="angel">Angel Investor</option>
                         <option value="vc">VC</option>
                         <option value="privateEquity">Private Equity</option>
@@ -161,7 +164,7 @@ export default function Investor({ goBack, email }) {
                     <input
                         type="url"
                         name="otherlinks"
-                        value={investorData.otherlinks}
+                        value={investorData.otherlinks.join(", ")}
                         onChange={handleChange}
                         placeholder="e.g- https://github.com, https://your-portfolio.com, https://your-company-name.com"
                     />

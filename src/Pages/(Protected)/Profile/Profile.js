@@ -1,50 +1,74 @@
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef  } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../../Components/Header";
 import './styles/ProfilePage.css'
 import About from "./components/About";
 import Portfolio from "./components/Portfolio";
 import Modal from "./components/Modal";
+import AddIcon from '@mui/icons-material/Add';
 import Links from "./components/Links";
+import axios from "axios";
 import AddDetails from "./components/AddDetails";
 
 export default function Profile({view}) {
-  const { email } = useParams();
-  const [profileType, setProfileType] = useState("client");
+  const { email} = useParams();
+  const linkInputRef = useRef(null);
+  const [createProject,setCreateProject] = useState(false);
   const [showModal,setShowModal] = useState(false);
-  const [userData, setUserData] = useState({
-    name: "Alex Johnson",
-    title: profileType === "investor" ? "Angel Investor" : "Startup Founder",
-    location: "San Francisco, CA",
-    joined: "January 2024",
-    bio: profileType === "investor"
-      ? "Angel investor with 10+ years of experience funding early-stage startups in fintech and health tech. Looking for innovative projects with strong growth potential and dedicated founding teams."
-      : "Serial entrepreneur with successful exits in SaaS. Currently developing an innovative AI-powered product to revolutionize healthcare diagnostics.",
-    portfolio: [
-      {
-        title: "Project X",
-        description: "A revolutionary tech startup that uses AI to optimize supply chain logistics.",
-        status: "Active",
-        fundingAmount: "$1,000,000",
-        investmentDate: "March 2024",
-      },
-      {
-        title: "FinTech Hub",
-        description: "FinTech platform helping small businesses with access to micro loans.",
-        status: "Funded",
-        fundingAmount: "$500,000",
-        investmentDate: "December 2023",
-      },
-    ],
-    about: "A passionate entrepreneur and investor committed to driving change through innovative technology.",
-    tags: ["AI", "FinTech", "Health Tech", "Startups"],
-    socialLinks: {
-      twitter: "#",
-      linkedin: "#",
-      website: "#",
-    },
-  });
+  const [userData, setUserData] = useState({});
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState('');
+  const [linkInput,setLinkInput] = useState(false);
+  const [role,setRole] = useState('');
+  const [change,setChange] = useState('');
 
+  useEffect(()=>{
+    const get_role = async ()=>{
+      try{
+        const res = await axios.get(`http://localhost:5000/usertype?email=${email}`);
+        setRole(res.data.type);
+      }catch(error){
+        alert(error);
+      }
+    }
+    get_role();
+  },[])
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (linkInputRef.current && !linkInputRef.current.contains(event.target)) {
+      setLinkInput(false);
+    }
+  };
+
+  if (linkInput) {
+    document.addEventListener("mousedown", handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [linkInput]);
+
+  useEffect(()=>{
+    const get = async ()=>{
+      try{
+        setLoading(true);
+        const res = await axios.get(`http://localhost:5000/${role}?email=${email}`);
+        setUserData(res.data);
+      }catch(error){
+        setError(error);
+        console.log(error);
+      }finally{
+        setLoading(false);
+      }
+    }
+    if(linkInput === false && role!=='')get();
+  },[change,role]);
+
+  if(loading)return <div>loading ... </div>
+  if(error) return <div>{error}</div>
+  console.log(userData);
   return (
     <div className="profile-container">
       <Header email={email}/>
@@ -54,21 +78,23 @@ export default function Profile({view}) {
           <div className="profile-avatar-container">
             <div className="profile-avatar"><img src="/user.png" alt='User' style={{marginTop:'-5px',marginLeft:'-4.7px',borderRadius:"50%"}} width={150}/></div>
             <h1>{userData.name}</h1>
-            <p className="profile-title">{userData.title}</p>
+            {role === 'Client' ? ( <p className="profile-title">{userData.companyName}</p>):(
+              <p className="profile-title">{userData.investorType}</p>
+            )}
             <div className="profile-meta">
               <span>{userData.location}</span>
-              <span>Joined {userData.joined}</span>
+              <span>Joined on {userData.join_month} {userData.join_year}</span>
             </div>
           </div>
         </div>
         <div className="profile-body">
         <div className="profile-actions" style={action_numbers}>
           <div style={{ textAlign: 'center' }}>
-            <div style={inv_cli_number}>12</div>
+            <div style={inv_cli_number}>{userData.investments}</div>
             <div style={{marginTop: '10px',fontSize: '16px',fontWeight: '500',color: '#555'}}>Investments</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={connection_number}>12</div>
+            <div style={connection_number}>{userData.connections}</div>
             <div style={connection}>Connections</div>
           </div>
         </div>
@@ -77,13 +103,17 @@ export default function Profile({view}) {
             <button className="connect-btn">Connect</button>
           </div>}
           <div className="profile-sections">
-            <About userData={userData}/>
+            <About view={view} userData={userData} role={role}/>
             <div className="profile-section portfolio-section">
-              <h2>Portfolio</h2>
+              <div style={{display:'flex',justifyContent:'space-between'}}>
+                <h2>Portfolio</h2>
+                {role === 'Client' && !view &&<span style={{cursor:'pointer'}} onClick={()=>{setCreateProject(true)}}><AddIcon/></span>}
+              </div>
               <div className="portfolio-list">
-                {userData.portfolio.map((item, index) => (
-                  <Portfolio item={item} index={index}/>
+                {userData.Portfolio.map((item, index) => (
+                  <Portfolio setChange={setChange} email={userData.email} key={index} item={item} index={index} setCreateProject={setCreateProject}/>
                 ))}
+                {createProject && <Portfolio setChange={setChange} email={userData.email} setCreateProject={setCreateProject} item={{creation:true}}/>}
               </div>
 
             <div style={{display:'flex',justifyContent:'center',marginTop:"20px"}}>
@@ -94,10 +124,15 @@ export default function Profile({view}) {
                     
         <div className="profile-section">               
             <div className="section-header">                 
-                <h2>Links</h2>               
+                <h2>Links</h2> 
+                {!view && <span style={{cursor:'pointer'}} onClick={()=>{if(!linkInput)setLinkInput(true);else{setLinkInput(false)}}}><AddIcon/></span>}
             </div>               
-            <div className="activity-feed"> 
-                <Links link="https://linkdein.com"/>               
+            <div className="activity-feed" style={{display:'flex',gap:'20px',flexDirection:'column'}} ref={linkInputRef}> 
+              <Links link={userData.linkedinProfile}/>
+                {userData.otherlinks.split(", ").map((link,index)=>{
+                  return <Links role={role} email={userData.email} key={index} link={link} setInputLink={setLinkInput}/>
+                })} 
+                {linkInput && <Links role={role} link="input" email={userData.email} setInputLink={setLinkInput}/>}              
             </div>             
         </div>              
         <div className="profile-section">
@@ -105,8 +140,14 @@ export default function Profile({view}) {
                 <h2>Additional Details</h2>               
             </div>               
             <div className="messages-list">                 
-                <AddDetails label="Experience" value="3+ Years"/>                 
-                <AddDetails label="Preferred Range of investing" value="Rs 5 Lakhs - 10 Lakhs"/>               
+                {role==='Client'?(<div>
+                  <AddDetails label="Experience" value={userData.experienceLevel}/>
+                  <AddDetails label="Role" value={userData.role}/>
+                </div>):(<div>
+                  <AddDetails label="Experience" value={userData.investmentExperience}/>
+                  <AddDetails label="Investment Range" value={userData.investmentRange}/>
+                  <AddDetails label="Role" value={role}/>
+                </div>)}                                
                 </div>             
             </div>           
         </div>         
