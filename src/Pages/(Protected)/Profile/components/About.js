@@ -19,7 +19,7 @@ export default function About({userData,role,view}){
     const updateAbout = async ()=>{
       try{
         setLoading(true);
-        await axios.put(`http://localhost:5000/${role}_update`,{email,data,key:'about'});
+        await axios.put(`https://smart-bell-server.onrender.com/${role}_update`,{email,data,key:'about'});
       }catch(error){
         console.log(error);
       }finally{ setLoading(false);setInput(false);}

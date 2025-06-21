@@ -15,7 +15,7 @@ export default function Modal({ onClose, setOtpFromUser, formData, handleclick, 
     try {
       if (OTP === otp_from_user) {
         setIsOTPVerified(true);
-        const res = await axios.post('http://localhost:5000/signup', formData);
+        const res = await axios.post('https://smart-bell-server.onrender.com/signup', formData);
         console.log(res.data);
         handleclick(formData.email,formData.name);
       } else {

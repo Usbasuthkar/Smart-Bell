@@ -73,7 +73,7 @@ export default function Investor({ goBack, email,name }) {
     
         setLoading(true);
         try {
-          await axios.post("http://localhost:5000/InvestorRegister", investorData,
+          await axios.post("https://smart-bell-server.onrender.com/InvestorRegister", investorData,
           );
           navigate("/login");
 

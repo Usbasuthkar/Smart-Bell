@@ -67,7 +67,7 @@ export default function Client({ goBack, email,name }) {
         console.log('Client Data:', finalClientData);
         setLoading(true)
         try {
-            await axios.post("http://localhost:5000/ClientRegister", finalClientData);
+            await axios.post("https://smart-bell-server.onrender.com/ClientRegister", finalClientData);
             navigate("/login");
         } catch (error) {
             alert(error.response?.data?.message || "An error occurred. Please try again.");

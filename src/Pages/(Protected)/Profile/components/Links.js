@@ -12,7 +12,7 @@ export default function Links({link,setInputLink,email,role}){
             alert('please fill the blank or reload the page');
         }
         try{
-            await axios.put(`http://localhost:5000/${role}_update`,{email,data,key:'otherlinks'})
+            await axios.put(`https://smart-bell-server.onrender.com/${role}_update`,{email,data,key:'otherlinks'})
         }catch(error){
             console.log(error);
         }finally{

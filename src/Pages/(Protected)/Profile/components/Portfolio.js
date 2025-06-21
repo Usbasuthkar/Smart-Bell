@@ -31,7 +31,7 @@ export default function Portfolio({ setChange,email,item, index,setCreateProject
         }
         console.log(data);
         try{
-        await axios.put("http://localhost:5000/client_update",{email,data,key:'Portfolio'})
+        await axios.put("https://smart-bell-server.onrender.com/client_update",{email,data,key:'Portfolio'})
         }
         catch(error){console.log(error);}
         finally{setCreateProject(false);
