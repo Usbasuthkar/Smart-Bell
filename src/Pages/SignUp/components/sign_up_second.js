@@ -12,7 +12,7 @@ export default function Signupsecond({goBack,Investor,Client}){
                 <h1 style={{ marginRight: '16px', flex: 1, textAlign: 'center' }}>Create an account</h1>
             </div>
               <center style={{marginTop:'100px'}}>
-                <h2>Choose Weather you are</h2>
+                <h2>Choose whether you are</h2>
                 <div style={{marginTop:'50px',display:'flex',justifyContent:'center',flexDirection:'row',gap:'10px'}}>
                   <button onClick={Investor} style={{width:"30%",backgroundColor:'#293e73'}} className="btn btn-primary">Investor</button>
                   <button onClick={Client} style={{width:"30%",backgroundColor:'#293e73'}} className="btn btn-primary">Client</button>

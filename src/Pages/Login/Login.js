@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./style/Loginpage.css";
 import Header from '../Landing/Components/Header';
+import {Server_uri} from '../../url'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from "./components/Modal";
@@ -16,7 +17,7 @@ const LoginPage = () => {
   const loginUser = async (email, password) => {
     setLoading(true)
     try {
-      const res = await axios.post("https://smart-bell-server.onrender.com/login", {
+      const res = await axios.post(`${Server_uri}/login`, {
         email,
         password
       });

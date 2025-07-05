@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {Server_uri} from '../../../url'
 
 export default function Modal({ onClose, setOtpFromUser, formData, handleclick, setIsOTPVerified, OTP }) {
   const [otp_from_user, setOtp] = useState('');
@@ -15,7 +16,7 @@ export default function Modal({ onClose, setOtpFromUser, formData, handleclick, 
     try {
       if (OTP === otp_from_user) {
         setIsOTPVerified(true);
-        const res = await axios.post('https://smart-bell-server.onrender.com/signup', formData);
+        const res = await axios.post(`${Server_uri}/signup`, formData);
         console.log(res.data);
         handleclick(formData.email,formData.name);
       } else {

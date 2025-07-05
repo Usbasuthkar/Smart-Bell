@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import {Server_uri} from '../../../url'
 import { useNavigate } from "react-router-dom";
 
 export default function Client({ goBack, email,name }) {
@@ -67,7 +68,7 @@ export default function Client({ goBack, email,name }) {
         console.log('Client Data:', finalClientData);
         setLoading(true)
         try {
-            await axios.post("https://smart-bell-server.onrender.com/ClientRegister", finalClientData);
+            await axios.post(`${Server_uri}/ClientRegister`, finalClientData);
             navigate("/login");
         } catch (error) {
             alert(error.response?.data?.message || "An error occurred. Please try again.");

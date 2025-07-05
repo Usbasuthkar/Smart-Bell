@@ -25,7 +25,7 @@ export default function Profile({view}) {
   useEffect(()=>{
     const get_role = async ()=>{
       try{
-        const res = await axios.get(`https://smart-bell-server.onrender.com/usertype?email=${email}`);
+        const res = await axios.get(`http://localhost:5000/usertype?email=${email}`);
         setRole(res.data.type);
       }catch(error){
         alert(error);
@@ -54,7 +54,7 @@ export default function Profile({view}) {
     const get = async ()=>{
       try{
         setLoading(true);
-        const res = await axios.get(`https://smart-bell-server.onrender.com/${role}?email=${email}`);
+        const res = await axios.get(`http://localhost:5000/${role}?email=${email}`);
         setUserData(res.data);
       }catch(error){
         setError(error);

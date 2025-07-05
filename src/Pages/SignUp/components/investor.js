@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import {Server_uri} from '../../../url'
 import { useNavigate } from "react-router-dom";
 
 export default function Investor({ goBack, email,name }) {
@@ -73,7 +74,7 @@ export default function Investor({ goBack, email,name }) {
     
         setLoading(true);
         try {
-          await axios.post("https://smart-bell-server.onrender.com/InvestorRegister", investorData,
+          await axios.post(`${Server_uri}/InvestorRegister`, investorData,
           );
           navigate("/login");
 
