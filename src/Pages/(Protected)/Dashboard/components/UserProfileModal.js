@@ -8,7 +8,7 @@ const UserProfileModal = ({ user, isClient, onClose }) => {
       <div className="modal-container">
         <div className="modal-content">
           <div className="modal-header">
-            <h2 className="modal-title">{user.name}</h2>
+            <h2 className="modal-title">{isClient ? user.name : user.companyName}</h2>
             <button 
               onClick={onClose}
               className="modal-close-button"
@@ -21,12 +21,12 @@ const UserProfileModal = ({ user, isClient, onClose }) => {
             {user.profileImage ? (
               <img 
                 src={user.profileImage} 
-                alt={user.name} 
+                alt={isClient ? user.name : user.companyName} 
                 className="modal-avatar-image"
               />
             ) : (
               <div className="modal-avatar-placeholder">
-                {user.name.charAt(0)}
+                {isClient ? user.name : user.companyName.charAt(0)}
               </div>
             )}
           </div>
