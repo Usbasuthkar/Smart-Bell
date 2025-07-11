@@ -15,7 +15,7 @@ const UserList = ({ users, isClient, onUserSelect }) => {
     <div className="user-list">
       {users.map((user) => (
         <UserCard 
-          key={user.id} 
+          key={user._id} 
           user={user} 
           isClient={isClient} 
           onSelect={() => onUserSelect(user)} 
