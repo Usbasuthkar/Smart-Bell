@@ -7,7 +7,36 @@
     display: flex;
     flex-direction: column;
   }
-  
+  /* Loader.css */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader-container p {
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+}
+
   /* Profile Content */
   .profile-content {
     flex: 1;

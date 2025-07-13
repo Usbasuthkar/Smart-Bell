@@ -11,6 +11,15 @@ import axios from "axios";
 import { Server_uri } from "../../../url";
 import AddDetails from "./components/AddDetails";
 
+const Loader = () => {
+  return (
+    <div className="loader-container">
+      <div className="spinner"></div>
+      <p>Loading your profile...</p>
+    </div>
+  );
+};
+
 export default function Profile({view}) {
   const { id } = useParams();
   const linkInputRef = useRef(null);
@@ -67,7 +76,7 @@ export default function Profile({view}) {
     if(linkInput === false && role!=='')get();
   },[change,role]);
 
-  if(loading)return <div>loading ... </div>
+  if(loading)return <Loader/>
   if(error) return <div>{error}</div>
   console.log(userData);
   return (

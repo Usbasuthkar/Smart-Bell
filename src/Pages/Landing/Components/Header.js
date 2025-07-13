@@ -22,7 +22,11 @@ const Header = () => {
         );
       const payload = JSON.parse(jsonPayload);
       if(!payload || !payload.exp) setIsExp(true);
-      setIsExp(payload.exp < Math.floor(Date.now() / 1000));
+      const check = payload.exp < Math.floor(Date.now() / 1000);
+      setIsExp(check);
+        if(!check){
+          setId(localStorage.getItem('id'));  
+        }
       }
       catch(error){console.log(error)}
     }
@@ -30,7 +34,7 @@ const Header = () => {
 
   useEffect(()=>{
     if(!isExp){
-    setId(localStorage.getItem('id'));
+    
     }
     else{
       localStorage.clear()
