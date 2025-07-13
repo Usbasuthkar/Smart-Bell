@@ -2,7 +2,7 @@ import React from "react";
 import Post from "./Post";
 import "./PostList.css"
 
-function PostList({ posts, userEmail }) {
+function PostList({ posts, userId }) {
     if (posts.length === 0) {
         return (
             <div className="no-posts">
@@ -15,7 +15,7 @@ function PostList({ posts, userEmail }) {
     return (
         <div className="post-list">
             {posts.map(post => (
-                <Post key={post.id} post={post} currentUserEmail={userEmail} />
+                <Post key={post.id} post={post} currentUserId={userId} />
             ))}
         </div>
     );

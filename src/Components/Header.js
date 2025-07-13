@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../css/Header.css';
 
-const Header = ({ email }) => {
+const Header = ({ id }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const location = useLocation();
@@ -25,16 +25,16 @@ const Header = ({ email }) => {
   };
 
   const navLinks = [
-    { name: 'Dashboard', path: `/dashboard/${email}` },
-    { name: 'Feed', path: `/feed/${email}` },
-    { name: 'Chat', path: `/chat/${email}` },
+    { name: 'Dashboard', path: `/dashboard/${id}` },
+    { name: 'Feed', path: `/feed/${id}` },
+    { name: 'Chat', path: `/chat/${id}` },
   ];
 
   return (
     <header className="header" role="banner">
       <nav className="navbar" role="navigation" aria-label="Main navigation">
         <div className="navbar__brand">
-          <Link to={`/dashboard/${email}`} className="navbar__logo" onClick={closeAllMenus}>
+          <Link to={`/dashboard/${id}`} className="navbar__logo" onClick={closeAllMenus}>
             <img src="/logo_only_transparent.png" alt="Brand Logo" width="32" height="32" />
           </Link>
         </div>
@@ -77,7 +77,7 @@ const Header = ({ email }) => {
             </button>
             {isProfileDropdownOpen && (
               <ul className="dropdown-menu">
-                <li><Link to={`/profile/${email}`} onClick={closeAllMenus}>View Profile</Link></li>
+                <li><Link to={`/profile/${id}`} onClick={closeAllMenus}>View Profile</Link></li>
                 <li><Link to='/login' onClick={() => { closeAllMenus();}}>Logout</Link></li>
                 <li><button onClick={() => { closeAllMenus(); alert('Delete Account action'); }}>Delete Account</button></li>
               </ul>

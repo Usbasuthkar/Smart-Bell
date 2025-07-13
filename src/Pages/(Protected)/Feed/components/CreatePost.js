@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CreatePost.css"
 
-function CreatePost({ onPostCreate, userEmail }) {
+function CreatePost({ onPostCreate, userId }) {
     const [content, setContent] = useState("");
     const [projectType, setProjectType] = useState("funding"); // Default for clients, could be "investment" for investors
     const [expanded, setExpanded] = useState(false);

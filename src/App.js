@@ -1,5 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from 'react';
 import Landing from './Pages/Landing/Landing';
 import Footer from './Components/Footer';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
@@ -19,13 +20,13 @@ function AppContent() {
       <div className="content-wrapper">
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/dashboard/:id" element={<Dashboard />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard/:email" element={<Dashboard />} />
-          <Route path="/feed/:email" element={<Feed />} />
-          <Route path="/chat/:email" element={<Chat />} />
-          <Route path="/profile/:email" element={<Profile view={false}/>} />
-          <Route path='/view-profile/:email' element={<Profile view={true}/>}/>
+          <Route path="/feed/:id" element={<Feed />} />
+          <Route path="/chat/:id" element={<Chat />} />
+          <Route path="/profile/:id" element={<Profile view={false}/>} />
+          <Route path='/view-profile/:id' element={<Profile view={true}/>}/>
         </Routes>
       </div>
       {!shouldHideFooter && <Footer />}

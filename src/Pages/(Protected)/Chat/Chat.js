@@ -6,7 +6,7 @@ import ChatWindow from "./components/ChatWindow";
 import "./styles/Chat.css"
 
 export default function Chat() {
-  const { email } = useParams();
+  const { id } = useParams();
   const [activeChat, setActiveChat] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export default function Chat() {
 
   return (
     <div className="chat-page">
-      <Header email={email} />
+      <Header id={id} />
       <div className="chat-container">
         <ChatSidebar 
           contacts={contacts} 
@@ -79,7 +79,7 @@ export default function Chat() {
         <ChatWindow 
           activeChat={activeChat} 
           contacts={contacts}
-          currentUserEmail={email}
+          currentUserId={id}
         />
       </div>
     </div>

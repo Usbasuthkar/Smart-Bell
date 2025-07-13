@@ -22,10 +22,14 @@ const LoginPage = () => {
         password
       });
       console.log(res.data);
-      navigate(`/dashboard/${encodeURIComponent(email)}`);
+      const jwtToken = res.data.jwtToken;
+      localStorage.setItem('token',jwtToken)
+      localStorage.setItem('id',res.data.id);
+      navigate(`/dashboard/${encodeURIComponent(res.data.id)}`);
     } catch (error) {
       setEmail('');
       setPassword('');
+      console.log(error);
       alert(error.response?.data?.message || "Login failed");
     }
     finally{

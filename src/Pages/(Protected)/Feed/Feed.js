@@ -7,7 +7,7 @@ import FilterBar from "./components/FilterBar";
 import "./styles/Feed.css";
 
 export default function Feed() {
-    const { email } = useParams();
+    const { id } = useParams();
     const [posts, setPosts] = useState([]);
     const [filter, setFilter] = useState("all");
     const [loading, setLoading] = useState(true);
@@ -70,7 +70,7 @@ export default function Feed() {
                 id: Date.now(),
                 author: {
                     name: "Current User",
-                    email: email,
+                    email: 'email',
                     avatar: "/api/placeholder/40/40",
                     type: "client" // This would be dynamically determined based on the logged-in user
                 },
@@ -93,10 +93,10 @@ export default function Feed() {
 
     return (
         <div className="feed-container">
-            <Header email={email}/>
+            <Header id={id}/>
             <div className="feed-content">
                 <div className="feed-main">
-                    <CreatePost onPostCreate={handlePostCreate} userEmail={email} />
+                    <CreatePost onPostCreate={handlePostCreate} userId={id} />
                     <FilterBar currentFilter={filter} onFilterChange={handleFilterChange} />
                     {loading ? (
                         <div className="loading-container">
@@ -104,7 +104,7 @@ export default function Feed() {
                             <p>Loading posts...</p>
                         </div>
                     ) : (
-                        <PostList posts={filteredPosts} userEmail={email} />
+                        <PostList posts={filteredPosts} userId={id} />
                     )}
                 </div>
                 <div className="feed-sidebar">

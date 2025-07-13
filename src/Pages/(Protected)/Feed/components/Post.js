@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatDistanceToNow } from 'date-fns'; // You'll need to install this package
 import "./Post.css"
 
-function Post({ post, currentUserEmail }) {
+function Post({ post, currentUserId }) {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(post.likes);
     const [showComments, setShowComments] = useState(false);

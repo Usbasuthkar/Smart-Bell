@@ -8,10 +8,11 @@ import Modal from "./components/Modal";
 import AddIcon from '@mui/icons-material/Add';
 import Links from "./components/Links";
 import axios from "axios";
+import { Server_uri } from "../../../url";
 import AddDetails from "./components/AddDetails";
 
 export default function Profile({view}) {
-  const { email} = useParams();
+  const { id } = useParams();
   const linkInputRef = useRef(null);
   const [createProject,setCreateProject] = useState(false);
   const [showModal,setShowModal] = useState(false);
@@ -25,7 +26,7 @@ export default function Profile({view}) {
   useEffect(()=>{
     const get_role = async ()=>{
       try{
-        const res = await axios.get(`http://localhost:5000/usertype?email=${email}`);
+        const res = await axios.get(`${Server_uri}/usertype?id=${id}`);
         setRole(res.data.type);
       }catch(error){
         alert(error);
@@ -54,7 +55,7 @@ export default function Profile({view}) {
     const get = async ()=>{
       try{
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/${role}?email=${email}`);
+        const res = await axios.get(`${Server_uri}/${role}?id=${id}`);
         setUserData(res.data);
       }catch(error){
         setError(error);
@@ -71,7 +72,7 @@ export default function Profile({view}) {
   console.log(userData);
   return (
     <div className="profile-container">
-      <Header email={email}/>
+      <Header id={id}/>
       <div className="profile-content">
         <div className="profile-header">
           <div className="profile-cover-photo"></div>
@@ -110,31 +111,24 @@ export default function Profile({view}) {
                 {role === 'Client' && !view &&<span style={{cursor:'pointer'}} onClick={()=>{setCreateProject(true)}}><AddIcon/></span>}
               </div>
               <div className="portfolio-list">
+                {!userData.portfolio && <div style={{textAlign:'center',color:'grey'}} className="portfolio-card">
+                    {role === 'Client' && 'Add your projects'}
+                    {role === 'Investor' && 'Invest in Projects to increase the length of your portfolio'}
+                  </div>}
                 {userData.Portfolio.map((item, index) => (
-                  <Portfolio setChange={setChange} email={userData.email} key={index} item={item} index={index} setCreateProject={setCreateProject}/>
+                  <Portfolio setChange={setChange} id={userData.id} key={index} item={item} index={index} setCreateProject={setCreateProject}/>
                 ))}
                 {createProject && <Portfolio setChange={setChange} email={userData.email} setCreateProject={setCreateProject} item={{creation:true}}/>}
               </div>
 
-            <div style={{display:'flex',justifyContent:'center',marginTop:"20px"}}>
+            {userData.portfolio && userData.portfolio.length > 3 && <div style={{display:'flex',justifyContent:'center',marginTop:"20px"}}>
               <button onClick={()=>{setShowModal(true)}}>Click to see more</button>
-            </div>
+            </div>}
             <Modal show={showModal} onClose={()=>{setShowModal(false)}} portfolio={userData.Portfolio}/>             
             </div>             
                     
-        <div className="profile-section">               
-            <div className="section-header">                 
-                <h2>Links</h2> 
-                {!view && <span style={{cursor:'pointer'}} onClick={()=>{if(!linkInput)setLinkInput(true);else{setLinkInput(false)}}}><AddIcon/></span>}
-            </div>               
-            <div className="activity-feed" style={{display:'flex',gap:'20px',flexDirection:'column'}} ref={linkInputRef}> 
-              <Links link={userData.linkedinProfile}/>
-                {userData.otherlinks.split(", ").map((link,index)=>{
-                  return <Links role={role} email={userData.email} key={index} link={link} setInputLink={setLinkInput}/>
-                })} 
-                {linkInput && <Links role={role} link="input" email={userData.email} setInputLink={setLinkInput}/>}              
-            </div>             
-        </div>              
+        <Links userdata={userData} role={role} />
+
         <div className="profile-section">
             <div className="section-header"> 
                 <h2>Additional Details</h2>               

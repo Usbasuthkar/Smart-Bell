@@ -5,8 +5,9 @@ import axios from "axios";
 import {Server_uri} from '../../../url'
 import { useNavigate } from "react-router-dom";
 
-export default function Investor({ goBack, email,name }) {
+export default function Investor({ id,goBack, email,name }) {
     const [investorData, setInvestorData] = useState({
+        id,
         investorType: '',
         investmentRange: '',
         industries: [],

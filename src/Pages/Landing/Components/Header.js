@@ -1,11 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../../../css/Header.css';
 
-const Header = ({ email }) => {
+const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [id,setId] = useState('');
+  const [isExp,setIsExp] = useState(true);
   const location = useLocation();
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    if(token){
+      try{
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64).split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          ).join('')
+        );
+      const payload = JSON.parse(jsonPayload);
+      if(!payload || !payload.exp) setIsExp(true);
+      setIsExp(payload.exp < Math.floor(Date.now() / 1000));
+      }
+      catch(error){console.log(error)}
+    }
+  },[]);
+
+  useEffect(()=>{
+    if(!isExp){
+    setId(localStorage.getItem('id'));
+    }
+    else{
+      localStorage.clear()
+    }
+  },[isExp])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(prev => !prev);
@@ -26,7 +56,7 @@ const Header = ({ email }) => {
 
   const navLinks = [
     { name: 'Sign Up', path: `/signup` },
-    { name: 'login', path: `/login` },
+    isExp?{ name: 'login', path: `/login` }:{name:'Dashboard',path:`/dashboard/${id}`},
   ];
 
   return (

@@ -18,7 +18,7 @@ export default function Modal({ onClose, setOtpFromUser, formData, handleclick, 
         setIsOTPVerified(true);
         const res = await axios.post(`${Server_uri}/signup`, formData);
         console.log(res.data);
-        handleclick(formData.email,formData.name);
+        handleclick(formData.email,formData.name,res.data.id);
       } else {
         alert("WRONG OTP!!");
       }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/ChatWindow.css";
 
-export default function ChatWindow({ activeChat, contacts, currentUserEmail }) {
+export default function ChatWindow({ activeChat, contacts, currentUserId }) {
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const messageEndRef = useRef(null);

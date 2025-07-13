@@ -6,28 +6,60 @@ import FilterPanel from './components/FilterPanel';
 import UserList from './components/UserList';
 import UserProfileModal from './components/UserProfileModal';
 import { mockClients, mockInvestors } from './mockData';
+import axios from "axios";
 import './styles/Dashboard.css';
+import { Server_uri } from '../../../url';
 
 const Dashboard = () => {
-  const { email } = useParams();
-  const userType = 'client'
+  const { id } = useParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({});
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [userType, setUserType] = useState('');
+  const [isClient, setIsClient] = useState(false);
 
   // Determine if current user is client or investor
-  const isClient = true;
+  useEffect(()=>{
+    const get_user_type = async ()=>{
+      try{
+        const res = await axios.get(`${Server_uri}/usertype?id=${id}`);
+        setUserType(res.data.type);
+        const isClient = res.data.type === 'Client' ? true : false;
+        setIsClient(isClient);
+      }catch(error){
+        alert(error);
+      }
+    }
+    get_user_type();
+  },[])
 
   // Fetch users based on userType
   useEffect(() => {
+    const get_role_based_data = async ()=>{
+      try{
+        console.log('userType :', userType);
+        const res = await axios.get(`${Server_uri}/dashboard?userType=${userType}`);
+        console.log('fetched rows : ', res);
+        const fetchedUsers = res.data.data;
+        setUsers(fetchedUsers);
+        setFilteredUsers(fetchedUsers);
+      }catch(error){
+        alert(error);
+      }
+    }
+
     // In a real app, this would be an API call
-    const fetchedUsers = isClient ? mockInvestors : mockClients;
-    setUsers(fetchedUsers);
-    setFilteredUsers(fetchedUsers);
-  }, [isClient]);
+    // const isClient = userType === 'Investor' ? false : true;
+    // const fetchedUsers = isClient ? mockInvestors : mockClients;
+
+
+    if(userType && userType !== '') { 
+      get_role_based_data(); 
+    }
+  }, [userType]);
 
   // Handle search and filter changes
   useEffect(() => {
@@ -70,7 +102,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <Header email={email} />
+      <Header id={id} />
       
       <main className="dashboard-main">
         <h1 className="dashboard-title">

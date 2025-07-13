@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {Server_uri} from '../../../url'
 
 export default function Modal({ onClose }) {
   const [email, setEmail] = useState('');
@@ -36,11 +37,17 @@ export default function Modal({ onClose }) {
         setLoading(true);
         try{
         //write logic for checking if email is registered or no
-        setShowEmail(false);
-        setShowOTP(true);
-        
+        setLoading(true);
+        const res = await axios.get(`${Server_uri}/emailCheck?email=${email}`);
+        if(res.data.success){
+          setShowEmail(false);
+          setShowOTP(true);
+        }
+        else{
+          alert('Email not found');
+        }
         }catch(error){
-            alert(error);
+            alert(error.response.data.message);
         }finally{
             setLoading(false);
         }
@@ -49,7 +56,10 @@ export default function Modal({ onClose }) {
         setLoading(true);
         try{
           if(new_password === new_repassword){
-            //logic for password updation in the background
+            setLoading(true);
+            const res = await axios.post(`${Server_uri}/forgotPassword`,{email,newPassword:new_password});
+            console.log(res.data);
+            setLoading(false);
             onClose();
           }else{
             alert("Passwords do not match");

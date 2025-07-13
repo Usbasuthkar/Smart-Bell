@@ -3,9 +3,11 @@ import '../styles/Portfolio.css';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import { Server_uri } from "../../../../url";
 
-export default function Portfolio({ setChange,email,item, index,setCreateProject }) {
+export default function Portfolio({ setChange,id,item, index,setCreateProject }) {
     const [showModal, setShowModal] = useState(false);
+    const [loading,setLoading] = useState(false);
     const [data,setData] = useState({
         title:'',
         status:'Active',
@@ -31,11 +33,12 @@ export default function Portfolio({ setChange,email,item, index,setCreateProject
         }
         console.log(data);
         try{
-        await axios.put("https://smart-bell-server.onrender.com/client_update",{email,data,key:'Portfolio'})
+            setLoading(true);
+        await axios.put(`${Server_uri}/client_update`,{id,data,key:'Portfolio'})
         }
         catch(error){console.log(error);}
         finally{setCreateProject(false);
-        setChange('portfolio');}
+        setChange('portfolio');setLoading(false);}
     }
     return (
         <>
@@ -67,7 +70,7 @@ export default function Portfolio({ setChange,email,item, index,setCreateProject
                         <div><strong>Description:</strong><TextField onChange={handleChange('description')} sx={{marginLeft:'50px'}} id="standard-basic" variant="standard"/></div>
                         <div><strong>Funding Amount:</strong><TextField onChange={handleChange('fundingAmount')} sx={{marginLeft:'50px'}} id="standard-basic" variant="standard"/></div>
                         <div><strong>Poject Creation Date:</strong><TextField onChange={handleChange('projectCreationDate')} disabled sx={{marginLeft:'50px'}} value={`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`} id="standard-basic" variant="standard"/></div>
-                        <Button onClick={createProject}>Submit</Button>
+                        <Button onClick={createProject}>{loading ? "Submitting...":"Submit"}</Button>
                         </div>)}
                         {/* Add more details here if needed */}
                     </div>

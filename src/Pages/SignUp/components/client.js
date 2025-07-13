@@ -5,8 +5,9 @@ import axios from "axios";
 import {Server_uri} from '../../../url'
 import { useNavigate } from "react-router-dom";
 
-export default function Client({ goBack, email,name }) {
+export default function Client({ id,goBack, email,name }) {
     const [clientData, setClientData] = useState({
+        id,
         role: '',
         companyName: '',
         industry: '',

@@ -4,22 +4,23 @@ import TextField from '@mui/material/TextField';
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import {Server_uri} from '../../../../url';
 
 export default function About({userData,role,view}){
   const [input,setInput] = useState(false);
   const [data,setData] = useState('');
-  const [email,setEmail] = useState('');
+  const [id,setId] = useState('');
   const [loading,setLoading] = useState(false);
 
     useEffect(()=>{
       setData(userData.about);
-      setEmail(userData.email);
+      setId(userData.id);
     },[])
 
     const updateAbout = async ()=>{
       try{
         setLoading(true);
-        await axios.put(`https://smart-bell-server.onrender.com/${role}_update`,{email,data,key:'about'});
+        await axios.put(`${Server_uri}/${role}_update`,{id,data,key:'about'});
       }catch(error){
         console.log(error);
       }finally{ setLoading(false);setInput(false);}
@@ -40,7 +41,7 @@ export default function About({userData,role,view}){
                   )))
                   :(<div className="tag">{userData.industry}</div>)}
                 </div>
-                { input && <Button sx={{height:'10%',marginTop:'10px'}} onClick={updateAbout}>Submit</Button>}
+                { input && <Button sx={{height:'10%',marginTop:'10px'}} onClick={updateAbout}>{loading ? 'submitting ...' : 'Submit'}</Button>}
               </div>
             </div>
     )
